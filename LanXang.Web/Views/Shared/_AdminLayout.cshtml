@@ -1,0 +1,33 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>@ViewBag.Title</title>
+    <link href="@Url.Content("~/Content/styles/Site.css")" rel="stylesheet" type="text/css" />
+    <script src="@Url.Content("~/Content/scripts/jquery-1.7.2.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/scripts/modernizr-1.7.min.js")" type="text/javascript"></script>
+
+    @RenderSection("header", false)
+</head>
+
+<body>
+
+    <div id="templatemo_wrapper"> 
+ 
+        <div id="templatemo_header"> 
+        
+            <div id="site_title"> 
+   		  	    <h1><a href="@Url.Action("Index", "Home")"><img src="@Url.Content("~/Content/images/Title1.png")"/></a></h1> 
+            </div><!-- end of site_title --> 
+ 
+      </div><!-- end of header --> 
+    
+        <div id="templatemo_main">
+            @RenderBody()
+        </div>
+ 
+    </div> <!-- end of wrapper --> 
+ 
+</body>
+</html>

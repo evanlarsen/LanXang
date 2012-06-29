@@ -1,0 +1,22 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Admin Section</h2>
+
+@using (Html.BeginForm())
+{
+<div id="login-container">
+    <h3>Please provide the password to login</h3>
+    <table>
+        <tr>
+            <td>Password:</td>
+            <td><input type="password" name="password" /></td>
+        </tr>
+        <tr>
+            <td><input type="submit" name="submit" value="Login" /></td>
+        </tr>
+    </table>
+</div>
+}
