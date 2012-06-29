@@ -1,0 +1,73 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div id="templatemo_content"> 
+        
+    <h2>Welcome to Sushilicious' Website</h2> 
+                       
+                      
+    <div class="image_wrapper fl_img"><img src="@Url.Content("~/Content/images/dish.jpg")" alt="Thai dish" style="width: 200px; height: 150px;" /></div> 
+    <p><em>Welcome! We are excited to present to you Lan Xang, formerly known as Sushilicious.</em></p> 
+    <p>We will be serving both modern-fusion and traditional sushi as well as many other signature Japanese Dishes (ie: Teriyaki, Tempura, Edamame, Fried Rice, Udon and Soba Noodles, Yakitori, and much more).</p>
+    <p>Lan Xang is also a Thai food restaurant.  We take special pride preparing our Thai and sushi the traditional way.</p> 
+            
+    <div class="button float_r"><a href="#">More...</a></div> 
+            
+    <div class="cleaner_h20 horizon_divider"></div> 
+    <div class="cleaner_h20"></div> 
+            
+    <h2>Featured Sushi</h2> 
+            
+    <div class="col_w190 float_l"> 
+        <div class="image_wrapper2"><img src="@Url.Content("~/Content/images/spicy_tuna.jpg")" alt="spicy tuna" /></div> 
+        <h5>Tuna roll</h5> 
+    </div> 
+            
+    <div class="col_w190 float_l"> 
+        <div class="image_wrapper2"><img src="@Url.Content("~/Content/images/eel.jpg")" alt="eel roll" /></div> 
+        <h5>Eel roll</h5> 
+    </div> 
+            
+    <div class="col_w190 float_l"> 
+        <div class="image_wrapper2"><img src="@Url.Content("~/Content/images/rainbow.jpg")" alt="rainbow roll" /></div> 
+        <h5>Rainbow roll</h5> 
+    </div> 
+            
+    <div class="cleaner"></div> 
+    <div class="button float_r">@Html.ActionLink("View More...", "FeaturedSushi")</div> 
+            
+</div> 
+        
+@*Right side bar*@
+<div id="templatemo_sidebar"> 
+            
+    <h2>Featured Categories</h2> 
+            
+    <ul class="templatemo_list"> 
+        <li>@Html.ActionLink("Curry Dishes", "DinnerMenu", "Home", null, null, "CurryDishes", null, null)</li> 
+        <li>@Html.ActionLink("Noodles (Pad Thai, Pad Kee Mao..)", "DinnerMenu", "Home", null, null, "Noodles", null, null)</li> 
+        <li>@Html.ActionLink("Fried Rice", "DinnerMenu", "Home", null, null, "FriedRice", null, null)</li> 
+        <li>@Html.ActionLink("Veggie Dishes", "DinnerMenu", "Home", null, null, "Veggie", null, null)</li> 
+                
+        <li>@Html.ActionLink("Soups", "DinnerMenu", "Home", null, null, "Soups", null, null)</li> 
+        <li>@Html.ActionLink("Hibachi Specials", "DinnerMenu", "Home", null, null, "HibachiSpecials", null, null)</li> 
+        <li>@Html.ActionLink("Appetizers", "DinnerMenu", "Home", null, null, "Appetizers", null, null)</li> 
+    </ul> 
+            
+    <div class="button">@Html.ActionLink("View All", "DinnerMenu")</div> 
+            
+    <div class="cleaner_h40"></div> 
+            
+    <h2>Testimonials</h2> 
+    <blockquote> 
+    <p>Wonderful place to go have sushi and a drink.</p> 
+            
+    <cite>Evan Larsen <span></span></cite> 
+    </blockquote> 
+ 
+</div> 
+    
+<div class="cleaner"></div> 

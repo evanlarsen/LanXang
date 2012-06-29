@@ -1,0 +1,192 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{84D7FC2E-08D5-470A-894F-178A745E0EDA}</ProjectGuid>
+    <ProjectTypeGuids>{E53F8FEA-EAE0-44A6-8774-FFD645390401};{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>LanXang.Web</RootNamespace>
+    <AssemblyName>LanXang.Web</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>false</UseIISExpress>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\libs\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Web.Helpers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\libs\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\libs\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\images\carousel_images\75-black.png" />
+    <Content Include="Content\images\carousel_images\next.png" />
+    <Content Include="Content\images\carousel_images\pause.png" />
+    <Content Include="Content\images\carousel_images\play.png" />
+    <Content Include="Content\images\carousel_images\prev.png" />
+    <Content Include="Content\images\dish.jpg" />
+    <Content Include="Content\images\eel.jpg" />
+    <Content Include="Content\images\front.jpg" />
+    <Content Include="Content\images\gallery\bir1a.jpg" />
+    <Content Include="Content\images\gallery\bir2.jpg" />
+    <Content Include="Content\images\gallery\clam1.jpg" />
+    <Content Include="Content\images\gallery\collage.jpg" />
+    <Content Include="Content\images\gallery\deb1.jpg" />
+    <Content Include="Content\images\gallery\front1a.jpg" />
+    <Content Include="Content\images\gallery\front2a.jpg" />
+    <Content Include="Content\images\gallery\hungry1.jpg" />
+    <Content Include="Content\images\gallery\hungry4a.jpg" />
+    <Content Include="Content\images\gallery\lobby1.jpg" />
+    <Content Include="Content\images\gallery\main1.jpg" />
+    <Content Include="Content\images\gallery\sake2a.jpg" />
+    <Content Include="Content\images\gallery\sixclam1.jpg" />
+    <Content Include="Content\images\gallery\sushibar1.jpg" />
+    <Content Include="Content\images\gallery\sushibar5.jpg" />
+    <Content Include="Content\images\gallery\sushibar6.jpg" />
+    <Content Include="Content\images\gallery\table1.jpg" />
+    <Content Include="Content\images\gallery\tiger2.jpg" />
+    <Content Include="Content\images\LanXang_green1.png" />
+    <Content Include="Content\images\LanXang_green_small.png" />
+    <Content Include="Content\images\rainbow.jpg" />
+    <Content Include="Content\images\section-head-bg.png" />
+    <Content Include="Content\images\spicy_tuna.jpg" />
+    <Content Include="Content\images\templatemo_banner.jpg" />
+    <Content Include="Content\images\templatemo_body.jpg" />
+    <Content Include="Content\images\templatemo_button.png" />
+    <Content Include="Content\images\templatemo_button_hover.png" />
+    <Content Include="Content\images\templatemo_footer.jpg" />
+    <Content Include="Content\images\templatemo_hor_divider.jpg" />
+    <Content Include="Content\images\templatemo_list.png" />
+    <Content Include="Content\images\templatemo_logo.png" />
+    <Content Include="Content\images\templatemo_menu.png" />
+    <Content Include="Content\images\templatemo_menu_hover.png" />
+    <Content Include="Content\images\templatemo_vertical_divider.jpg" />
+    <Content Include="Content\images\Title1.png" />
+    <Content Include="Content\scripts\jquery.pikachoose.js" />
+    <Content Include="Content\styles\bottom.css" />
+    <Content Include="Content\styles\goudy_bookletter_1911.svg" />
+    <Content Include="Global.asax" />
+    <Content Include="Content\styles\Site.css" />
+    <Content Include="Content\scripts\jquery-1.7.2.js" />
+    <Content Include="Content\scripts\jquery-1.7.2.min.js" />
+    <Content Include="Content\scripts\modernizr-1.7.js" />
+    <Content Include="Content\scripts\modernizr-1.7.min.js" />
+    <Content Include="Web.config" />
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Models\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Home\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Content\styles\goudy_bookletter_1911.eot" />
+    <None Include="Content\styles\goudy_bookletter_1911.ttf" />
+    <None Include="Content\styles\goudy_bookletter_1911.woff" />
+    <Content Include="Views\Home\DinnerMenu.cshtml" />
+    <Content Include="Views\Home\FeaturedSushi.cshtml" />
+    <Content Include="Views\Home\Location.cshtml" />
+    <Content Include="Views\Home\LunchMenu.cshtml" />
+    <Content Include="Views\Home\SushiMenu.cshtml" />
+    <Content Include="Views\Home\Delivery.cshtml" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>False</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>49853</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>
+          </IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

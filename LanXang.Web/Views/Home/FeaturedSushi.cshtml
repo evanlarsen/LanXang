@@ -1,0 +1,44 @@
+﻿@{
+    ViewBag.Title = "FeaturedSushi";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section header {
+    <link href="@Url.Content("~/Content/styles/bottom.css")" rel="stylesheet" type="text/css" />
+    <script src="@Url.Content("~/Content/scripts/jquery.pikachoose.js")" type="text/javascript"></script>
+
+    <script type="text/javascript" language="javascript">
+        $(document).ready(
+			function () {
+			    $("#pikame").PikaChoose();
+			    $("#pika-stage").css("margin-right", "auto");
+			    $("#pika-stage").css("margin-left", "200px");
+			    $("#pika-stage").css("display", "block");
+			}
+        );
+	</script>
+}
+
+
+<div class="pikachoose" >
+	<ul id="pikame" class="jcarousel-skin-pika">
+        <li><img src="@Url.Content("~/Content/images/gallery/sushibar1.jpg")" /></li>
+        <li><img src="@Url.Content("~/Content/images/gallery/front2a.jpg")" /></li>
+        <li><img src="@Url.Content("~/Content/images/gallery/deb1.jpg")"/></li>
+        <li><img src="@Url.Content("~/Content/images/gallery/hungry1.jpg")" /></li>
+		<li><img src="@Url.Content("~/Content/images/gallery/bir1a.jpg")"/></li>
+		<li><img src="@Url.Content("~/Content/images/gallery/bir2.jpg")"/></li>
+		<li><img src="@Url.Content("~/Content/images/gallery/clam1.jpg")"/></li>
+		<li><img src="@Url.Content("~/Content/images/gallery/collage.jpg")"/></li>
+        <li><img src="@Url.Content("~/Content/images/gallery/front1a.jpg")" /></li>
+        <li><img src="@Url.Content("~/Content/images/gallery/hungry4a.jpg")" /></li>
+        <li><img src="@Url.Content("~/Content/images/gallery/lobby1.jpg")" /></li>
+        <li><img src="@Url.Content("~/Content/images/gallery/main1.jpg")" /></li>
+        <li><img src="@Url.Content("~/Content/images/gallery/sake2a.jpg")" /></li>
+        <li><img src="@Url.Content("~/Content/images/gallery/sixclam1.jpg")" /></li>
+        <li><img src="@Url.Content("~/Content/images/gallery/sushibar5.jpg")" /></li>
+        <li><img src="@Url.Content("~/Content/images/gallery/sushibar6.jpg")" /></li>
+        <li><img src="@Url.Content("~/Content/images/gallery/table1.jpg")" /></li>
+        <li><img src="@Url.Content("~/Content/images/gallery/tiger2.jpg")" /></li>
+	</ul>
+</div>

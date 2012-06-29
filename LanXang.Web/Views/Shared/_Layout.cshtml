@@ -1,0 +1,83 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="keywords" content="Sushilicious Lan Xang sushi thai restaurant tallahassee tally orient oriental pho fried rice asian" /> 
+    <meta name="description" content="Tallahassee modern sushi and thai restaurant named Lan Xang formerlly known as Sushilicious" /> 
+
+    <title>@ViewBag.Title</title>
+    <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
+    <script src="@Url.Content("~/Content/scripts/jquery-1.7.2.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/scripts/modernizr-1.7.min.js")" type="text/javascript"></script>
+
+    @RenderSection("header", false)
+</head>
+
+<body>
+
+    <div id="templatemo_wrapper"> 
+ 
+        <div id="templatemo_header"> 
+        
+            <div id="site_title"> 
+   		  	    <h1><a href="@Url.Action("Index", "Home")"><img src="@Url.Content("~/Content/images/Title1.png")"/></a></h1> 
+            </div><!-- end of site_title --> 
+        
+            <div class="header_address"> 
+        	    <strong><u>Quick Contact</u></strong><br /> 
+                Phone: (850) 894-0330<br />
+                <strong><u><a href="@Url.Action("Location", "Home")" class="headerLink">Address</a></u></strong><br /> 
+                <a href="@Url.Action("Location", "Home")" class="headerLink">2915 Kerry Forest pkwy. Ste 604</a><br />  
+      	    </div>
+
+            <div class="header_address rightPadding"> 
+        	    <strong><u>Store Hours</u></strong><br /> 
+                Mon-Thurs: 11am-10pm<br /> 
+                Friday: 11am-10:30pm<br />
+                Saturday: 12-10:30pm
+      	    </div>
+            
+ 
+      </div><!-- end of header --> 
+    
+        <div id="templatemo_middle"> 
+    	
+            <div id="templatemo_banner"> 
+        	
+                <h1>Lan Xang<span>Formerly know as Sushilicious</span><span>modern sushi, Japanese & Thai</span></h1> 
+            
+            </div> 
+        
+            <div id="templatemo_menu"> 
+                
+                <ul> 
+                    <li>@Html.ActionLink("Home", "Index", null, new { id = "lnkHome" })</li> 
+                    <li>@Html.ActionLink("Location", "Location", null, new { id = "lnkLocation" })</li> 
+                    <li>@Html.ActionLink("Lunch Menu", "LunchMenu", null, new { id = "lnkLunchMenu" })</li> 
+                    <li>@Html.ActionLink("Dinner Menu", "DinnerMenu", null, new { id = "lnkDinnerMenu" })</li>
+                    <li>@Html.ActionLink("Sushi Menu", "SushiMenu", null, new { id = "lnkSushiMenu" })</li>
+                    <li>@Html.ActionLink("Delivery", "Delivery", null, new { id = "lnkLunchMenu" })</li> 
+          	    </ul>   	
+        
+            </div> <!-- end of templatemo_menu --> 
+      
+        </div> 
+    
+        <div id="templatemo_main">
+            @RenderBody()
+        </div>
+ 
+    </div> <!-- end of wrapper --> 
+ 
+    <div id="templatemo_footer_wrapper"> 
+ 
+         <div id="templatemo_footer"> 
+    
+            Copyright © 2011 <a href="#">Lan Xang Sushi Restaurant</a> | 
+   
+            Designed by T.C.S.
+        </div> <!-- end of templatemo_footer --> 
+    
+    </div> 
+</body>
+</html>

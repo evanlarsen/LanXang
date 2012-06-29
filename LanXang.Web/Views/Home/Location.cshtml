@@ -1,0 +1,51 @@
+﻿@{
+    ViewBag.Title = "Location";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section header {
+    <style type="text/css">
+        #map_canvas { width: 900px; height: 600px; }
+        #content { height: 185px; }
+        #content h3 { margin: 10px 0 0 0; }
+    </style>
+
+    <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+    <script type="text/javascript">
+        $(document).ready(function initialize() {
+            var storelatlng = new google.maps.LatLng(30.542008, -84.2254722);
+            var offcenterlatlng = new google.maps.LatLng(30.543939, -84.221051);
+            var myOptions = {
+                zoom: 16,
+                center: offcenterlatlng,
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            };
+            var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+            var marker = new google.maps.Marker({
+                position: storelatlng,
+                animation: google.maps.Animation.DROP,
+                title: "Lan Xang!"
+            });
+
+            marker.setMap(map);
+
+            var contentString = '<div id="content">' +
+                '<h3>LanXang</h3>' +
+                '<div id="bodyContent">' +
+                '<p>2915 Kerry Forest pkwy. Ste 604 Tallahassee, FL 32309</p>' +
+                '<img src="@Url.Content("~/Content/images/front.jpg")" style="width: 200px; "/>' +
+                '</div>' +
+                '</div>';
+
+            var infowindow = new google.maps.InfoWindow({
+                content: contentString
+            });
+
+            infowindow.open(map, marker);
+        });
+
+    </script>
+}
+
+<h1>Restaurant Location</h1>
+<div id="map_canvas"></div>
