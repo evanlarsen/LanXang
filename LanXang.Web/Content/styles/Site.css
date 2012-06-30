@@ -156,7 +156,7 @@ em { color: #000; }
 	text-decoration: none;
 }
 
-#templatemo_header .header_address {
+.header_address {
 	float: right;
 	display: inline-block;
 	text-align: right;

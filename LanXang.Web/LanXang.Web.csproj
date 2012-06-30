@@ -75,6 +75,7 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Viewmodels\AdminLoginVM.cs" />
+    <Compile Include="Viewmodels\StoreHoursVM.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\images\carousel_images\75-black.png" />
@@ -121,6 +122,8 @@
     <Content Include="Content\images\templatemo_vertical_divider.jpg" />
     <Content Include="Content\images\Title1.png" />
     <Content Include="Content\scripts\jquery.pikachoose.js" />
+    <Content Include="Content\scripts\knockout-2.1.0.js" />
+    <Content Include="Content\scripts\knockout.mapping-latest.js" />
     <Content Include="Content\styles\bottom.css" />
     <Content Include="Content\styles\goudy_bookletter_1911.svg" />
     <Content Include="Global.asax" />
