@@ -1,9 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Data.Entity.ModelConfiguration.Conventions;
 using LanXang.Web.Core.Entities;
-using System.Data.Entity.Infrastructure;
-using System;
 
 namespace LanXang.Web.Core.Data
 {
@@ -16,6 +16,7 @@ namespace LanXang.Web.Core.Data
 
         public DbSet<StoreHoursEntity> StoreHours { get; set; }
 
+        public DbSet<MenuCategoryEntity> MenuCategories { get; set; }
 
 
 
