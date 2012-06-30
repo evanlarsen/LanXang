@@ -4,6 +4,28 @@
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 @section header {
+    <style type="text/css">
+        .store-hours-container 
+        {
+            text-align: left;
+            clear: both;
+            display: block;
+        }
+        .store-hours-display 
+        {
+            float: left;
+	        text-align: right;
+	        color: #fff;
+	        padding: 15px;
+	        border: 1px solid white;
+        }
+        #edit-store-hours 
+        {
+            clear: both;
+            padding-top: 20px;
+        }
+        #edit-store-hours input[type=text] { width: 200px; }
+    </style>
     <script type="text/javascript">
         $(function () {
             var model = @Html.Raw(Json.Encode(Model));
@@ -17,29 +39,33 @@
 
 <h2>StoreHours</h2>
 <div id="store-hours-container">
-    <div class="header_address rightPadding"> 
-        <strong><u>Store Hours</u></strong><br /> 
-        <span data-bind="text: Line1"></span><br /> 
-        <span data-bind="text: Line2"></span><br />
-        <span data-bind="text: Line3"></span>
+    <div class="store-hours-container">
+        <div class="store-hours-display"> 
+            <strong><u>Store Hours</u></strong><br /> 
+            <span data-bind="text: Line1"></span><br /> 
+            <span data-bind="text: Line2"></span><br />
+            <span data-bind="text: Line3"></span>
+        </div>
     </div>
 
-    @using (Html.BeginForm())
-    {
-    <table>
-        <tr>
-            <td>Line 1</td>
-            <td>@Html.TextBoxFor(p => p.Line1, new { data_bind = "value: Line1" })</td>
-        </tr>
-        <tr>
-            <td>Line 2</td>
-            <td>@Html.TextBoxFor(p => p.Line2, new { data_bind = "value: Line2" })</td>
-        </tr>
-        <tr>
-            <td>Line 3</td>
-            <td>@Html.TextBoxFor(p => p.Line3, new { data_bind = "value: Line3" })</td>
-        </tr>
-    </table>
-    <input type="submit" value="Save" name="save" />
-    }
+    <div id="edit-store-hours">
+        @using (Html.BeginForm())
+        {
+            <table>
+                <tr>
+                    <td>Line 1</td>
+                    <td>@Html.TextBoxFor(p => p.Line1, new { data_bind = "value: Line1, valueUpdate: 'afterkeydown'" })</td>
+                </tr>
+                <tr>
+                    <td>Line 2</td>
+                    <td>@Html.TextBoxFor(p => p.Line2, new { data_bind = "value: Line2, valueUpdate: 'afterkeydown'" })</td>
+                </tr>
+                <tr>
+                    <td>Line 3</td>
+                    <td>@Html.TextBoxFor(p => p.Line3, new { data_bind = "value: Line3, valueUpdate: 'afterkeydown'" })</td>
+                </tr>
+            </table>
+            <input type="submit" value="Save" name="save" />
+        }
+    </div>
 </div>
