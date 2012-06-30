@@ -12,7 +12,7 @@
 
     <script type="text/javascript">
         $(function () {
-            function MenuVM() {
+            function MenuVM(model) {
                 var self = this;
 
                 self.Categories = ko.observableArray([]);
@@ -46,9 +46,37 @@
                 self.deleteCategory = function (category) {
                     self.Categories.remove(category);
                 }
+
+                self.Categories.subscribe(function () {
+                    var _cat = self.Categories();
+                    if (_cat) {
+                        for (var i = 0, max = _cat.length; i < max; i++) {
+                            _cat[i].Sequence(i);
+                        }
+                    }
+                }, self);
+
+                function _init() {
+                    if (model && model.Categories && model.Categories.length > 0) {
+                        var mapping = {
+                            'Categories': {
+                                create: function (options) {
+                                    return new Category(options.data);
+                                }
+                            }
+                        },
+                        orderedCategories = model.Categories.sort(function (left, right) {
+                            return left.Sequence > right.Sequence ? 1 : -1;
+                        });
+                        model.Categories = orderedCategories;
+                        ko.mapping.fromJS(model, mapping, self);
+                    }
+                }
+
+                _init();
             }
 
-            function Category() {
+            function Category(data) {
                 var self = this;
 
                 self.Sequence = ko.observable();
@@ -56,7 +84,10 @@
                 self.MenuItems = ko.observableArray([]);
 
                 self.isZeroMenuItems = ko.computed(function () {
-                    return !!(self.MenuItems().length === 0);
+                    if (self.MenuItems()) {
+                        return !!(self.MenuItems().length === 0)
+                    }
+                    return true;
                 }, self);
 
                 self.addMenuItem = function () {
@@ -88,18 +119,65 @@
                 self.deleteMenuItem = function (menuItem) {
                     self.MenuItems.remove(menuItem);
                 }
+
+                self.mvcNameValue = ko.computed(function () {
+                    return "Categories[" + self.Sequence() + "].";
+                }, self);
+
+                self.MenuItems.subscribe(function () {
+                    var _mi = self.MenuItems();
+                    if (_mi) {
+                        for (var i = 0, max = _mi.length; i < max; i++) {
+                            _mi[i].Sequence(i);
+                        }
+                    }
+                }, self);
+
+                function _init() {
+                    if (data) {
+                        var mapping = {
+                            'MenuItems': {
+                                create: function (options) {
+                                    return new MenuItem(options.data);
+                                }
+                            }
+                        };
+                        if (data.MenuItems && data.MenuItems.length > 0) {
+                            var orderedMenuItems = data.MenuItems.sort(function (left, right) {
+                                return left.Sequence > right.Sequence ? 1 : -1;
+                            });
+                            data.MenuItems = orderedMenuItems;
+                        }
+                        ko.mapping.fromJS(data, mapping, self);
+                    }
+                }
+
+                _init();
             }
 
-            function MenuItem() {
+            function MenuItem(data) {
                 var self = this;
 
                 self.Name = ko.observable();
                 self.Description = ko.observable();
                 self.Price = ko.observable();
                 self.Sequence = ko.observable();
+
+                self.mvcNameValue = ko.computed(function () {
+                    return "MenuItems[" + self.Sequence() + "].";
+                }, self);
+
+                function _init() {
+                    if (data) {
+                        ko.mapping.fromJS(data, {}, self);
+                    }
+                }
+
+                _init();
             }
 
-            var vm = new MenuVM();
+            var _model = @Html.Raw(Json.Encode(Model));
+            var vm = new MenuVM(_model);
 
             ko.applyBindings(vm, document.getElementById('menu-container'));
         });
@@ -110,9 +188,12 @@
 <br /><br />
 <h2>Dinner Menu</h2>
 
+@using (Html.BeginForm())
+{
 <div id="menu-container">
     <div id="menu-actions">
         <input type="button" value="add category" data-bind="click: addCategory" />
+        <input type="submit" value="Save" />
     </div>
     <ul data-bind="foreach: Categories">
         <li>
@@ -121,11 +202,11 @@
                 <input type="button" value="move down" data-bind="click: $parent.moveDown, visible: $parent.canMoveDown($data)" />
                 <input type="button" value="add menu item" data-bind="click: addMenuItem" />
                 <input type="button" value="delete category" data-bind="click: $parent.deleteCategory, visible: isZeroMenuItems" />
-                <input type="hidden" data-bind="value: Sequence" />
+                <input type="hidden" data-bind="value: Sequence, attr: { name: mvcNameValue() + 'Sequence' }" />
             </div>
             <div class="category-name">
                 <span>Category:</span>
-                <input type="text" data-bind="value: Name" />
+                <input type="text" data-bind="value: Name, attr: { name: mvcNameValue() + 'Name' }" />
             </div>
             <ul data-bind="foreach: MenuItems">
                 <li>
@@ -133,20 +214,20 @@
                         <input type="button" value="move up" data-bind="click: $parent.moveUp, visible: $parent.canMoveUp($data)" />
                         <input type="button" value="move down" data-bind="click: $parent.moveDown, visible: $parent.canMoveDown($data)" />
                         <input type="button" value="delete" data-bind="click: $parent.deleteMenuItem" />
-                        <input type="hidden" data-bind="value: Sequence" />
+                        <input type="hidden" data-bind="value: Sequence, attr: { name: $parent.mvcNameValue() + mvcNameValue() + 'Sequence' }" />
                     </div>
                     <table>
                         <tr>
                             <td><span>Menu Item:</span></td>
-                            <td><input type="text" data-bind="value: Name" /></td>
+                            <td><input type="text" data-bind="value: Name, attr: { name: $parent.mvcNameValue() + mvcNameValue() + 'Name' }" /></td>
                         </tr>
                         <tr>
                             <td><span>Description:</span></td>
-                            <td><input type="text" data-bind="value: Description" /></td>
+                            <td><input type="text" data-bind="value: Description, attr: { name: $parent.mvcNameValue() + mvcNameValue() + 'Description' }" /></td>
                         </tr>
                         <tr>
                             <td><span>Price</span></td>
-                            <td><input type="text" data-bind="value: Price" /></td>
+                            <td><input type="text" data-bind="value: Price, attr: { name: $parent.mvcNameValue() + mvcNameValue() + 'Price' }" /></td>
                         </tr>
                     </table>
                 </li>
@@ -154,3 +235,5 @@
         </li>
     </ul>
 </div>
+<input type="submit" value="Save" />
+}
