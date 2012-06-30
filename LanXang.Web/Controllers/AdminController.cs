@@ -40,73 +40,46 @@ namespace LanXang.Web.Controllers
         [Authorize]
         public ActionResult DinnerMenu()
         {
-            using (var r = new Repository())
-            {
-                MenuVM vm = new MenuVM();
-                vm.Categories = new List<Category>();
-
-                foreach (var c in r.MenuCategories.Include("MenuItems").Where(c => c.CategoryType == "Dinner"))
-                {
-                    vm.Categories.Add(new Category()
-                    {
-                        Sequence = c.Sequence,
-                        Name = c.Name,
-                        MenuItems = c.MenuItems.Select(
-                                        i => new MenuItem() {
-                                            Sequence = i.Sequence,
-                                            Name = i.Name,
-                                            Description = i.Description,
-                                            Price = i.Price
-                                        }).ToList()
-                    });
-                }
-
-                return View(vm);
-            }
+            MenuVM vm = GetMenuFromStore("Dinner");
+            return View(vm);
         }
 
         [Authorize]
         [HttpPost]
         public ActionResult DinnerMenu(MenuVM vm)
         {
-            using (var r = new Repository())
-            {
-                foreach (var c in r.MenuCategories.Include("MenuItems").Where(c => c.CategoryType == "Dinner"))
-                {
-                    while (c.MenuItems.Any())
-                    {
-                        r.MenuItems.Remove(c.MenuItems.First());
-                    }
-
-                    r.MenuCategories.Remove(c);
-                }
-
-                foreach (var c in vm.Categories)
-                {
-                    r.MenuCategories.Add(new MenuCategoryEntity()
-                    {
-                        Sequence = c.Sequence,
-                        CategoryType = "Dinner",
-                        Name = c.Name,
-                        MenuItems = c.MenuItems.ConvertAll(i => new MenuItemEntity()
-                                                            {
-                                                                Sequence = i.Sequence,
-                                                                Name = i.Name,
-                                                                Description = i.Description,
-                                                                Price = i.Price
-                                                            })
-                    });
-                }
-
-                r.SaveChanges();
-            }
+            vm = SaveMenu(vm, "Dinner");
             return View(vm);
         }
 
         [Authorize]
         public ActionResult SushiMenu()
         {
-            return View();
+            MenuVM vm = GetMenuFromStore("Sushi");
+            return View(vm);
+        }
+
+        [Authorize]
+        [HttpPost]
+        public ActionResult SushiMenu(MenuVM vm)
+        {
+            vm = SaveMenu(vm, "Sushi");
+            return View(vm);
+        }
+
+        [Authorize]
+        public ActionResult LunchMenu()
+        {
+            MenuVM vm = GetMenuFromStore("Lunch");
+            return View(vm);
+        }
+
+        [Authorize]
+        [HttpPost]
+        public ActionResult LunchMenu(MenuVM vm)
+        {
+            vm = SaveMenu(vm, "Lunch");
+            return View(vm);
         }
 
         [Authorize]
@@ -151,6 +124,70 @@ namespace LanXang.Web.Controllers
         public ActionResult Email()
         {
             return View();
+        }
+
+        private MenuVM GetMenuFromStore(string menuType)
+        {
+            MenuVM vm = new MenuVM();
+
+            using (var r = new Repository())
+            {
+                vm.Categories = new List<Category>();
+
+                foreach (var c in r.MenuCategories.Include("MenuItems").Where(c => c.CategoryType == menuType))
+                {
+                    vm.Categories.Add(new Category()
+                    {
+                        Sequence = c.Sequence,
+                        Name = c.Name,
+                        MenuItems = c.MenuItems.Select(
+                                        i => new MenuItem()
+                                        {
+                                            Sequence = i.Sequence,
+                                            Name = i.Name,
+                                            Description = i.Description,
+                                            Price = i.Price
+                                        }).ToList()
+                    });
+                }
+            }
+            return vm;
+        }
+
+        private MenuVM SaveMenu(MenuVM vm, string menuType)
+        {
+            using (var r = new Repository())
+            {
+                foreach (var c in r.MenuCategories.Include("MenuItems").Where(c => c.CategoryType == menuType))
+                {
+                    while (c.MenuItems.Any())
+                    {
+                        r.MenuItems.Remove(c.MenuItems.First());
+                    }
+
+                    r.MenuCategories.Remove(c);
+                }
+
+                foreach (var c in vm.Categories)
+                {
+                    r.MenuCategories.Add(new MenuCategoryEntity()
+                    {
+                        Sequence = c.Sequence,
+                        CategoryType = menuType,
+                        Name = c.Name,
+                        MenuItems = c.MenuItems.ConvertAll(i => new MenuItemEntity()
+                        {
+                            Sequence = i.Sequence,
+                            Name = i.Name,
+                            Description = i.Description,
+                            Price = i.Price
+                        })
+                    });
+                }
+
+                r.SaveChanges();
+            }
+            return vm;
         }
     }
 }

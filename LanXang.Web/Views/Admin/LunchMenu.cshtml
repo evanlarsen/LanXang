@@ -1,8 +1,10 @@
 ﻿@model LanXang.Web.Viewmodels.MenuVM
+
 @{
-    ViewBag.Title = "Edit Dinner Menu";
+    ViewBag.Title = "Edit Lunch Menu";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
+
 
 @section header {
     <style type="text/css">
@@ -23,6 +25,6 @@
 
 @Html.ActionLink("Back to main menu", "MainMenu")
 <br /><br />
-<h2>Dinner Menu</h2>
+<h2>Lunch Menu</h2>
 
 @{ Html.RenderPartial("_MenuTemplate"); }

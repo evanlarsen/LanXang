@@ -16,52 +16,25 @@ namespace LanXang.Web.Controllers
 
         public ActionResult Index()
         {
-            //using (var r = new Repository())
-            //{
-            //    r.StoreHours.Add(new StoreHoursEntity() { ID = 1, Line1 = "Test", Line2 = "Test 2", Line3 = "Test 3" });
-            //    r.SaveChanges();
-            //    var data = from x in r.StoreHours
-            //               select x;
-            //}
             return View();
         }
 
         public ActionResult DinnerMenu()
         {
-            using (var r = new Repository())
-            {
-                MenuVM vm = new MenuVM();
-                vm.Categories = new List<Category>();
-
-                foreach (var c in r.MenuCategories.Include("MenuItems").Where(c => c.CategoryType == "Dinner"))
-                {
-                    vm.Categories.Add(new Category()
-                    {
-                        Sequence = c.Sequence,
-                        Name = c.Name,
-                        MenuItems = c.MenuItems.Select(
-                                        i => new MenuItem()
-                                        {
-                                            Sequence = i.Sequence,
-                                            Name = i.Name,
-                                            Description = i.Description,
-                                            Price = i.Price
-                                        }).ToList()
-                    });
-                }
-
-                return View(vm);
-            }
+            MenuVM vm = GetMenuFromStore("Dinner");
+            return View(vm);
         }
 
         public ActionResult LunchMenu()
         {
-            return View();
+            MenuVM vm = GetMenuFromStore("Lunch");
+            return View(vm);
         }
 
         public ActionResult SushiMenu()
         {
-            return View();
+            MenuVM vm = GetMenuFromStore("Sushi");
+            return View(vm);
         }
 
         public ActionResult FeaturedSushi()
@@ -94,6 +67,33 @@ namespace LanXang.Web.Controllers
                 };
                 return View(vm);
             }
+        }
+
+        private MenuVM GetMenuFromStore(string menuType)
+        {
+            MenuVM vm = new MenuVM();
+            using (var r = new Repository())
+            {
+                vm.Categories = new List<Category>();
+
+                foreach (var c in r.MenuCategories.Include("MenuItems").Where(c => c.CategoryType == menuType))
+                {
+                    vm.Categories.Add(new Category()
+                    {
+                        Sequence = c.Sequence,
+                        Name = c.Name,
+                        MenuItems = c.MenuItems.Select(
+                                        i => new MenuItem()
+                                        {
+                                            Sequence = i.Sequence,
+                                            Name = i.Name,
+                                            Description = i.Description,
+                                            Price = i.Price
+                                        }).ToList()
+                    });
+                }
+            }
+            return vm;
         }
     }
 }

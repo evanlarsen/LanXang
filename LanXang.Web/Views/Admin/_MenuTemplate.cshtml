@@ -1,0 +1,61 @@
+﻿@{ Layout = null; }
+
+@using (Html.BeginForm())
+{
+<div id="menu-container">
+    <div id="menu-actions">
+        <input type="button" value="add category" data-bind="click: addCategory" />
+        <input type="submit" value="Save" />
+    </div>
+    <ul data-bind="foreach: Categories">
+        <li>
+            <div class="category-actions">
+                <input type="button" value="move up" data-bind="click: $parent.moveUp, visible: $parent.canMoveUp($data)" />
+                <input type="button" value="move down" data-bind="click: $parent.moveDown, visible: $parent.canMoveDown($data)" />
+                <input type="button" value="add menu item" data-bind="click: addMenuItem" />
+                <input type="button" value="delete category" data-bind="click: $parent.deleteCategory, visible: isZeroMenuItems" />
+                <input type="hidden" data-bind="value: Sequence, attr: { name: mvcNameValue() + 'Sequence' }" />
+            </div>
+            <div class="category-name">
+                <table>
+                    <tr>
+                        <td><span>Category:</span></td>
+                        <td><input type="text" data-bind="value: Name, attr: { name: mvcNameValue() + 'Name' }" /></td>
+                    </tr>
+                    <tr>
+                        <td><span>Description</span></td>
+                        <td><input type="text" data-bind="value: Description, attr: { name: mvcNameValue() + 'Description' }" /></td>
+                    </tr>
+                </table>
+                
+                
+            </div>
+            <ul data-bind="foreach: MenuItems">
+                <li>
+                    <div class="menu-item-actions">
+                        <input type="button" value="move up" data-bind="click: $parent.moveUp, visible: $parent.canMoveUp($data)" />
+                        <input type="button" value="move down" data-bind="click: $parent.moveDown, visible: $parent.canMoveDown($data)" />
+                        <input type="button" value="delete" data-bind="click: $parent.deleteMenuItem" />
+                        <input type="hidden" data-bind="value: Sequence, attr: { name: $parent.mvcNameValue() + mvcNameValue() + 'Sequence' }" />
+                    </div>
+                    <table>
+                        <tr>
+                            <td><span>Menu Item:</span></td>
+                            <td><input type="text" data-bind="value: Name, attr: { name: $parent.mvcNameValue() + mvcNameValue() + 'Name' }" /></td>
+                        </tr>
+                        <tr>
+                            <td><span>Description:</span></td>
+                            <td><input type="text" data-bind="value: Description, attr: { name: $parent.mvcNameValue() + mvcNameValue() + 'Description' }" /></td>
+                        </tr>
+                        <tr>
+                            <td><span>Price</span></td>
+                            <td><input type="text" data-bind="value: Price, attr: { name: $parent.mvcNameValue() + mvcNameValue() + 'Price' }" /></td>
+                        </tr>
+                    </table>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</div>
+<input type="submit" value="Save" />
+}

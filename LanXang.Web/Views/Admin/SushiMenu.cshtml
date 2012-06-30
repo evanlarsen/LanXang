@@ -1,6 +1,28 @@
-﻿@{
-    ViewBag.Title = "SushiMenu";
+﻿@model LanXang.Web.Viewmodels.MenuVM
+@{
+    ViewBag.Title = "Edit Sushi Menu";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h2>SushiMenu</h2>
+@section header {
+    <style type="text/css">
+        #menu-container input[type=text] { width: 300px; }
+        #menu-container li { border: 2px dotted white; padding: 10px; }
+    </style>
+
+    <script src="@Url.Content("~/Content/scripts/menu.js")" type="text/javascript"></script>
+
+    <script type="text/javascript">
+        $(function () {
+            var _model = @Html.Raw(Json.Encode(Model));
+            var vm = new MenuVM(_model);    
+            ko.applyBindings(vm, document.getElementById('menu-container'));
+        });
+    </script>
+}
+
+@Html.ActionLink("Back to main menu", "MainMenu")
+<br /><br />
+<h2>Sushi Menu</h2>
+
+@{ Html.RenderPartial("_MenuTemplate"); }
