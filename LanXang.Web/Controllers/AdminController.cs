@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using System.Web.Security;
 using LanXang.Web.Viewmodels;
 using LanXang.Web.Core.Data;
+using LanXang.Web.Core.Entities;
 
 namespace LanXang.Web.Controllers
 {
@@ -68,6 +69,37 @@ namespace LanXang.Web.Controllers
         [HttpPost]
         public ActionResult DinnerMenu(MenuVM vm)
         {
+            using (var r = new Repository())
+            {
+                foreach (var c in r.MenuCategories.Include("MenuItems").Where(c => c.CategoryType == "Dinner"))
+                {
+                    while (c.MenuItems.Any())
+                    {
+                        r.MenuItems.Remove(c.MenuItems.First());
+                    }
+
+                    r.MenuCategories.Remove(c);
+                }
+
+                foreach (var c in vm.Categories)
+                {
+                    r.MenuCategories.Add(new MenuCategoryEntity()
+                    {
+                        Sequence = c.Sequence,
+                        CategoryType = "Dinner",
+                        Name = c.Name,
+                        MenuItems = c.MenuItems.ConvertAll(i => new MenuItemEntity()
+                                                            {
+                                                                Sequence = i.Sequence,
+                                                                Name = i.Name,
+                                                                Description = i.Description,
+                                                                Price = i.Price
+                                                            })
+                    });
+                }
+
+                r.SaveChanges();
+            }
             return View(vm);
         }
 

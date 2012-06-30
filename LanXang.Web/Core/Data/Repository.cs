@@ -19,6 +19,8 @@ namespace LanXang.Web.Core.Data
 
         public DbSet<MenuCategoryEntity> MenuCategories { get; set; }
 
+        public DbSet<MenuItemEntity> MenuItems { get; set; }
+
 
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
