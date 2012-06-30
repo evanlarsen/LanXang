@@ -71,6 +71,14 @@ namespace LanXang.Web.Controllers
         [HttpPost]
         public ActionResult StoreHours(StoreHoursVM vm)
         {
+            using (var r = new Repository())
+            {
+                var entity = r.StoreHours.First();
+                entity.Line1 = vm.Line1;
+                entity.Line2 = vm.Line2;
+                entity.Line3 = vm.Line3;
+                r.SaveChanges();
+            }
             return View(vm);
         }
 
