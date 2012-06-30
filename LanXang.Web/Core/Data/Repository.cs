@@ -56,12 +56,15 @@ namespace LanXang.Web.Core.Data
             public void InitializeDatabase(Repository context)
             {
                 bool dbExists = context.Database.Exists();
+
                 if (dbExists)
                 {
-                    context.Database.ExecuteSqlCommand("DROP TABLE dbo.EdmMetadata");
+                    DropTable(context, "dbo.EdmMetadata");
 
                     // remove all tables
-                    context.Database.ExecuteSqlCommand("EXEC sp_MSforeachtable @command1 = \"DROP TABLE ?\", @whereand = \"and uid = (SELECT schema_id FROM sys.schemas WHERE name = 'LanXang')\"");
+                    DropTable(context, "LanXang.StoreHours");
+                    DropTable(context, "LanXang.MenuItem");
+                    DropTable(context, "LanXang.MenuCategory");
 
                     // create all tables
                     var dbCreationScript = ((IObjectContextAdapter)context).ObjectContext.CreateDatabaseScript();
@@ -74,6 +77,11 @@ namespace LanXang.Web.Core.Data
                 {
                     throw new ApplicationException("No database instance");
                 }
+            }
+
+            private void DropTable(Repository context, string tableName)
+            {
+                context.Database.ExecuteSqlCommand(String.Format("IF OBJECT_ID('{0}','U') IS NOT NULL \r\n DROP TABLE {0}", tableName));
             }
 
             #endregion
