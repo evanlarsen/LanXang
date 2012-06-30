@@ -17,6 +17,8 @@ namespace LanXang.Web.Core.Data
         public DbSet<StoreHoursEntity> StoreHours { get; set; }
 
 
+
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             Database.SetInitializer(new DropCreateDatabaseTables());
@@ -24,10 +26,21 @@ namespace LanXang.Web.Core.Data
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
 
             modelBuilder.Entity<StoreHoursEntity>()
-                .HasKey(sh => sh.ID)
+                .HasKey(e => e.ID)
                 .ToTable("StoreHours", "LanXang");
-
             modelBuilder.Entity<StoreHoursEntity>()
+                .Property(e => e.ID).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+
+            modelBuilder.Entity<MenuCategoryEntity>()
+                .HasKey(e => e.ID)
+                .ToTable("MenuCategory", "LanXang");
+            modelBuilder.Entity<MenuCategoryEntity>()
+                .Property(e => e.ID).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+
+            modelBuilder.Entity<MenuItemEntity>()
+                .HasKey(e => e.ID)
+                .ToTable("MenuItem", "LanXang");
+            modelBuilder.Entity<MenuItemEntity>()
                 .Property(e => e.ID).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
         }
 
