@@ -16,6 +16,8 @@ namespace LanXang.Web.Viewmodels
 
         public string Name { get; set; }
 
+        public string Description { get; set; }
+
         public List<MenuItem> MenuItems { get; set; }
     }
 

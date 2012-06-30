@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using LanXang.Web.Core.Data;
 using LanXang.Web.Core.Entities;
+using LanXang.Web.Viewmodels;
 
 namespace LanXang.Web.Controllers
 {
@@ -27,7 +28,30 @@ namespace LanXang.Web.Controllers
 
         public ActionResult DinnerMenu()
         {
-            return View();
+            using (var r = new Repository())
+            {
+                MenuVM vm = new MenuVM();
+                vm.Categories = new List<Category>();
+
+                foreach (var c in r.MenuCategories.Include("MenuItems").Where(c => c.CategoryType == "Dinner"))
+                {
+                    vm.Categories.Add(new Category()
+                    {
+                        Sequence = c.Sequence,
+                        Name = c.Name,
+                        MenuItems = c.MenuItems.Select(
+                                        i => new MenuItem()
+                                        {
+                                            Sequence = i.Sequence,
+                                            Name = i.Name,
+                                            Description = i.Description,
+                                            Price = i.Price
+                                        }).ToList()
+                    });
+                }
+
+                return View(vm);
+            }
         }
 
         public ActionResult LunchMenu()
@@ -53,6 +77,23 @@ namespace LanXang.Web.Controllers
         public ActionResult Delivery()
         {
             return View();
+        }
+
+        [ChildActionOnly]
+        public ActionResult _StoreHours()
+        {
+            using (var r = new Repository())
+            {
+                var entity = r.StoreHours.First();
+
+                StoreHoursVM vm = new StoreHoursVM()
+                {
+                    Line1 = entity.Line1,
+                    Line2 = entity.Line2,
+                    Line3 = entity.Line3
+                };
+                return View(vm);
+            }
         }
     }
 }

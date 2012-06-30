@@ -81,6 +81,7 @@
 
                 self.Sequence = ko.observable();
                 self.Name = ko.observable();
+                self.Description = ko.observable();
                 self.MenuItems = ko.observableArray([]);
 
                 self.isZeroMenuItems = ko.computed(function () {
@@ -205,8 +206,18 @@
                 <input type="hidden" data-bind="value: Sequence, attr: { name: mvcNameValue() + 'Sequence' }" />
             </div>
             <div class="category-name">
-                <span>Category:</span>
-                <input type="text" data-bind="value: Name, attr: { name: mvcNameValue() + 'Name' }" />
+                <table>
+                    <tr>
+                        <td><span>Category:</span></td>
+                        <td><input type="text" data-bind="value: Name, attr: { name: mvcNameValue() + 'Name' }" /></td>
+                    </tr>
+                    <tr>
+                        <td><span>Description</span></td>
+                        <td><input type="text" data-bind="value: Description, attr: { name: mvcNameValue() + 'Description' }" /></td>
+                    </tr>
+                </table>
+                
+                
             </div>
             <ul data-bind="foreach: MenuItems">
                 <li>

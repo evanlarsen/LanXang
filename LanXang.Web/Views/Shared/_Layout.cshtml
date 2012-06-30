@@ -31,10 +31,7 @@
       	    </div>
 
             <div class="header_address rightPadding"> 
-        	    <strong><u>Store Hours</u></strong><br /> 
-                Mon-Thurs: 11am-10pm<br /> 
-                Friday: 11am-10:30pm<br />
-                Saturday: 12-10:30pm
+        	    @{ Html.RenderAction("_StoreHours", "Home"); }
       	    </div>
             
  
