@@ -39,8 +39,29 @@ namespace LanXang.Web.Controllers
         [Authorize]
         public ActionResult DinnerMenu()
         {
-            MenuVM vm = new MenuVM();
-            return View(vm);
+            using (var r = new Repository())
+            {
+                MenuVM vm = new MenuVM();
+                vm.Categories = new List<Category>();
+
+                foreach (var c in r.MenuCategories.Include("MenuItems").Where(c => c.CategoryType == "Dinner"))
+                {
+                    vm.Categories.Add(new Category()
+                    {
+                        Sequence = c.Sequence,
+                        Name = c.Name,
+                        MenuItems = c.MenuItems.Select(
+                                        i => new MenuItem() {
+                                            Sequence = i.Sequence,
+                                            Name = i.Name,
+                                            Description = i.Description,
+                                            Price = i.Price
+                                        }).ToList()
+                    });
+                }
+
+                return View(vm);
+            }
         }
 
         [Authorize]
