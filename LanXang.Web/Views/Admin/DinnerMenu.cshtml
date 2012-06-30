@@ -1,6 +1,156 @@
-﻿@{
+﻿@model LanXang.Web.Viewmodels.MenuVM
+@{
     ViewBag.Title = "DinnerMenu";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h2>DinnerMenu</h2>
+@section header {
+    <style type="text/css">
+        #menu-container input[type=text] { width: 300px; }
+        #menu-container li { border: 2px dotted white; padding: 10px; }
+    </style>
+
+    <script type="text/javascript">
+        $(function () {
+            function MenuVM() {
+                var self = this;
+
+                self.Categories = ko.observableArray([]);
+
+                self.addCategory = function () {
+                    self.Categories.push(new Category());
+                }
+
+                self.moveUp = function (category) {
+                    var position = ko.utils.arrayIndexOf(self.Categories(), category);
+                    self.Categories.remove(category);
+                    self.Categories.splice(position - 1, 0, category);
+                }
+
+                self.moveDown = function (category) {
+                    var position = ko.utils.arrayIndexOf(self.Categories(), category);
+                    self.Categories.remove(category);
+                    self.Categories.splice(position + 1, 0, category);
+                }
+
+                self.canMoveUp = function (category) {
+                    var position = ko.utils.arrayIndexOf(self.Categories(), category);
+                    return !!(position > 0);
+                }
+
+                self.canMoveDown = function (category) {
+                    var position = ko.utils.arrayIndexOf(self.Categories(), category);
+                    return !(position === (self.Categories().length - 1));
+                }
+
+                self.deleteCategory = function (category) {
+                    self.Categories.remove(category);
+                }
+            }
+
+            function Category() {
+                var self = this;
+
+                self.Sequence = ko.observable();
+                self.Name = ko.observable();
+                self.MenuItems = ko.observableArray([]);
+
+                self.isZeroMenuItems = ko.computed(function () {
+                    return !!(self.MenuItems().length === 0);
+                }, self);
+
+                self.addMenuItem = function () {
+                    self.MenuItems.push(new MenuItem());
+                }
+
+                self.moveUp = function (menuItem) {
+                    var position = ko.utils.arrayIndexOf(self.MenuItems(), menuItem);
+                    self.MenuItems.remove(menuItem);
+                    self.MenuItems.splice(position - 1, 0, menuItem);
+                }
+
+                self.moveDown = function (menuItem) {
+                    var position = ko.utils.arrayIndexOf(self.MenuItems(), menuItem);
+                    self.MenuItems.remove(menuItem);
+                    self.MenuItems.splice(position + 1, 0, menuItem);
+                }
+
+                self.canMoveUp = function (menuItem) {
+                    var position = ko.utils.arrayIndexOf(self.MenuItems(), menuItem);
+                    return !!(position > 0);
+                }
+
+                self.canMoveDown = function (menuItem) {
+                    var position = ko.utils.arrayIndexOf(self.MenuItems(), menuItem);
+                    return !(position === (self.MenuItems().length - 1));
+                }
+
+                self.deleteMenuItem = function (menuItem) {
+                    self.MenuItems.remove(menuItem);
+                }
+            }
+
+            function MenuItem() {
+                var self = this;
+
+                self.Name = ko.observable();
+                self.Description = ko.observable();
+                self.Price = ko.observable();
+                self.Sequence = ko.observable();
+            }
+
+            var vm = new MenuVM();
+
+            ko.applyBindings(vm, document.getElementById('menu-container'));
+        });
+    </script>
+}
+
+@Html.ActionLink("Back to main menu", "MainMenu")
+<br /><br />
+<h2>Dinner Menu</h2>
+
+<div id="menu-container">
+    <div id="menu-actions">
+        <input type="button" value="add category" data-bind="click: addCategory" />
+    </div>
+    <ul data-bind="foreach: Categories">
+        <li>
+            <div class="category-actions">
+                <input type="button" value="move up" data-bind="click: $parent.moveUp, visible: $parent.canMoveUp($data)" />
+                <input type="button" value="move down" data-bind="click: $parent.moveDown, visible: $parent.canMoveDown($data)" />
+                <input type="button" value="add menu item" data-bind="click: addMenuItem" />
+                <input type="button" value="delete category" data-bind="click: $parent.deleteCategory, visible: isZeroMenuItems" />
+                <input type="hidden" data-bind="value: Sequence" />
+            </div>
+            <div class="category-name">
+                <span>Category:</span>
+                <input type="text" data-bind="value: Name" />
+            </div>
+            <ul data-bind="foreach: MenuItems">
+                <li>
+                    <div class="menu-item-actions">
+                        <input type="button" value="move up" data-bind="click: $parent.moveUp, visible: $parent.canMoveUp($data)" />
+                        <input type="button" value="move down" data-bind="click: $parent.moveDown, visible: $parent.canMoveDown($data)" />
+                        <input type="button" value="delete" data-bind="click: $parent.deleteMenuItem" />
+                        <input type="hidden" data-bind="value: Sequence" />
+                    </div>
+                    <table>
+                        <tr>
+                            <td><span>Menu Item:</span></td>
+                            <td><input type="text" data-bind="value: Name" /></td>
+                        </tr>
+                        <tr>
+                            <td><span>Description:</span></td>
+                            <td><input type="text" data-bind="value: Description" /></td>
+                        </tr>
+                        <tr>
+                            <td><span>Price</span></td>
+                            <td><input type="text" data-bind="value: Price" /></td>
+                        </tr>
+                    </table>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</div>
