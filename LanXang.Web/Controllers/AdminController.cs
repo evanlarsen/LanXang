@@ -38,7 +38,9 @@ namespace LanXang.Web.Controllers
         [Authorize]
         public ActionResult DinnerMenu()
         {
-            return View();
+            MenuVM vm = new MenuVM();
+            
+            return View(vm);
         }
 
         [Authorize]
