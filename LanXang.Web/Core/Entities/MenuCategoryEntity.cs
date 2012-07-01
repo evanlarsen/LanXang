@@ -8,6 +8,7 @@ namespace LanXang.Web.Core.Entities
         public int Sequence { get; set; }
         public string CategoryType { get; set; }
         public string Name { get; set; }
+        public string Description { get; set; }
         public List<MenuItemEntity> MenuItems { get; set; }
     }
 }
