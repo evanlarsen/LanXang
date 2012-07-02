@@ -25,6 +25,7 @@ namespace LanXang.Web.Controllers
                 {
                     vm.Categories.Add(new Category()
                     {
+                        CategoryID = c.ID,
                         Sequence = c.Sequence,
                         Name = c.Name
                     });
@@ -94,9 +95,9 @@ namespace LanXang.Web.Controllers
                 {
                     vm.Categories.Add(new Category()
                     {
+                        CategoryID = c.ID,
                         Sequence = c.Sequence,
                         Name = c.Name,
-                        CategoryID = c.ID,
                         Description = c.Description,
                         MenuItems = c.MenuItems.Select(
                                         i => new MenuItem()
