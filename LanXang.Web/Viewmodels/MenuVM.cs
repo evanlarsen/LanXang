@@ -12,6 +12,8 @@ namespace LanXang.Web.Viewmodels
 
     public class Category
     {
+        public int CategoryID { get; set; }
+
         public int Sequence { get; set; }
 
         public string Name { get; set; }

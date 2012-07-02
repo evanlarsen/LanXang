@@ -6,7 +6,7 @@
 
 @foreach (var category in Model.Categories)
 {
-    <div class="section">
+    <div class="section" id="category@(category.CategoryID)">
         <span class="category">@category.Name</span>
         <div>@category.Description</div>
         <ul class="menuItem">
