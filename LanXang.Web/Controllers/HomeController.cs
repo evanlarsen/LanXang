@@ -96,6 +96,8 @@ namespace LanXang.Web.Controllers
                     {
                         Sequence = c.Sequence,
                         Name = c.Name,
+                        CategoryID = c.ID,
+                        Description = c.Description,
                         MenuItems = c.MenuItems.Select(
                                         i => new MenuItem()
                                         {
