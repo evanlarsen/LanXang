@@ -16,7 +16,21 @@ namespace LanXang.Web.Controllers
 
         public ActionResult Index()
         {
-            return View();
+            MenuVM vm = new MenuVM();
+            using (var r = new Repository())
+            {
+                vm.Categories = new List<Category>();
+
+                foreach (var c in r.MenuCategories.Where(c => c.CategoryType == "Dinner"))
+                {
+                    vm.Categories.Add(new Category()
+                    {
+                        Sequence = c.Sequence,
+                        Name = c.Name
+                    });
+                }
+            }
+            return View(vm);
         }
 
         public ActionResult DinnerMenu()
