@@ -21,7 +21,7 @@ namespace LanXang.Web.Controllers
             {
                 vm.Categories = new List<Category>();
 
-                foreach (var c in r.MenuCategories.Where(c => c.CategoryType == "Dinner"))
+                foreach (var c in r.MenuCategories.Where(c => c.CategoryType == "Dinner").Take(7))
                 {
                     vm.Categories.Add(new Category()
                     {
