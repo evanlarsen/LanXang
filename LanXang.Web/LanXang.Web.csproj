@@ -131,7 +131,9 @@
     <Content Include="Content\scripts\jquery.fileupload-fp.js" />
     <Content Include="Content\scripts\jquery.fileupload-ui.js" />
     <Content Include="Content\scripts\jquery.fileupload.js" />
+    <Content Include="Content\scripts\jquery.iframe-transport.js" />
     <Content Include="Content\scripts\jquery.pikachoose.js" />
+    <Content Include="Content\scripts\jquery.ui.widget.js" />
     <Content Include="Content\scripts\knockout-2.1.0.js" />
     <Content Include="Content\scripts\knockout.mapping-latest.js" />
     <Content Include="Content\scripts\menu.js" />
