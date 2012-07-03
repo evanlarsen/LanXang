@@ -71,6 +71,7 @@
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Core\Data\Repository.cs" />
+    <Compile Include="Core\Entities\FileUploadEntity.cs" />
     <Compile Include="Core\Entities\MenuCategoryEntity.cs" />
     <Compile Include="Core\Entities\MenuItemEntity.cs" />
     <Compile Include="Core\Entities\StoreHoursEntity.cs" />
@@ -81,6 +82,7 @@
     <Compile Include="Viewmodels\AdminLoginVM.cs" />
     <Compile Include="Viewmodels\MenuVM.cs" />
     <Compile Include="Viewmodels\StoreHoursVM.cs" />
+    <Compile Include="Viewmodels\ViewDataUploadFilesResultVM.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\images\carousel_images\75-black.png" />
@@ -126,12 +128,16 @@
     <Content Include="Content\images\templatemo_menu_hover.png" />
     <Content Include="Content\images\templatemo_vertical_divider.jpg" />
     <Content Include="Content\images\Title1.png" />
+    <Content Include="Content\scripts\jquery.fileupload-fp.js" />
+    <Content Include="Content\scripts\jquery.fileupload-ui.js" />
+    <Content Include="Content\scripts\jquery.fileupload.js" />
     <Content Include="Content\scripts\jquery.pikachoose.js" />
     <Content Include="Content\scripts\knockout-2.1.0.js" />
     <Content Include="Content\scripts\knockout.mapping-latest.js" />
     <Content Include="Content\scripts\menu.js" />
     <Content Include="Content\styles\bottom.css" />
     <Content Include="Content\styles\goudy_bookletter_1911.svg" />
+    <Content Include="Content\styles\jquery.fileupload-ui.css" />
     <Content Include="Global.asax" />
     <Content Include="Content\styles\Site.css" />
     <Content Include="Content\scripts\jquery-1.7.2.js" />

@@ -22,6 +22,8 @@ namespace LanXang.Web.Core.Data
 
         public DbSet<MenuItemEntity> MenuItems { get; set; }
 
+        public DbSet<FileUploadEntity> Files { get; set; }
+
 
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -35,6 +37,10 @@ namespace LanXang.Web.Core.Data
                 .ToTable("StoreHours", "LanXang");
             modelBuilder.Entity<StoreHoursEntity>()
                 .Property(e => e.ID).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+
+            modelBuilder.Entity<FileUploadEntity>()
+                .HasKey(e => e.ID)
+                .ToTable("FileUpload", "LanXang");
 
             modelBuilder.Entity<MenuCategoryEntity>()
                 .HasKey(e => e.ID)
@@ -66,6 +72,7 @@ namespace LanXang.Web.Core.Data
 
                     // remove all tables
                     DropTable(context, "LanXang.StoreHours");
+                    DropTable(context, "LanXang.FileUpload");
                     DropTable(context, "LanXang.MenuItem");
                     DropTable(context, "LanXang.MenuCategory");
 

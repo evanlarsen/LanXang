@@ -3,4 +3,17 @@
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h2>Gallery</h2>
+@section header {
+    <link href="@Url.Content("~/Content/styles/jquery.fileupload-ui.css")" rel="stylesheet" type="text/css" />
+    <script src="@Url.Content("~/Content/scripts/jquery.fileupload.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/scripts/jquery.fileupload-fp.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/scripts/jquery.fileupload-ui.js")" type="text/javascript"></script>
+
+    <script type="text/javascript">
+        $(function () {
+            $('#fileupload').fileupload();
+        });
+    </script>
+}
+
+<input id="fileUpload" type="file" name="files[]" multiple data-url="@Url.Action("UpdateFile")" data-sequential-uploads="true" data-form-data='{"script": "true"}' />

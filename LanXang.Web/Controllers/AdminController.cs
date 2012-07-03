@@ -7,6 +7,9 @@ using System.Web.Security;
 using LanXang.Web.Viewmodels;
 using LanXang.Web.Core.Data;
 using LanXang.Web.Core.Entities;
+using System.IO;
+using System.Drawing;
+using System.Drawing.Drawing2D;
 
 namespace LanXang.Web.Controllers
 {
@@ -124,6 +127,155 @@ namespace LanXang.Web.Controllers
         public ActionResult Email()
         {
             return View();
+        }
+
+        //DONT USE THIS IF YOU NEED TO ALLOW LARGE FILES UPLOADS
+        [Authorize]
+        [HttpGet]
+        public void DeleteFile(Guid id)
+        {
+            using (Repository r = new Repository())
+            {
+                r.Files.Remove(new FileUploadEntity() { ID = id });
+            }
+        }
+
+        //DONT USE THIS IF YOU NEED TO ALLOW LARGE FILES UPLOADS
+        [Authorize]
+        [HttpGet]
+        public ActionResult DownloadFile(Guid id)
+        {
+            using (Repository r = new Repository())
+            {
+                FileUploadEntity file = r.Files.FirstOrDefault(f => f.ID == id);
+
+                if (file == null)
+                {
+                    throw new HttpException(404, "HTTP/1.1 404 Not Found");
+                }
+
+                return File(file.FileContents, file.ContentType);
+            }
+        }
+
+        [Authorize]
+        [HttpPost]
+        public ActionResult UploadFiles()
+        {
+            var r = new List<ViewDataUploadFilesResultVM>();
+
+            foreach (string file in Request.Files)
+            {
+                var statuses = new List<ViewDataUploadFilesResultVM>();
+                var headers = Request.Headers;
+
+                if (string.IsNullOrEmpty(headers["X-File-Name"]))
+                {
+                    UploadWholeFile(Request, statuses);
+                }
+                else
+                {
+                    UploadPartialFile(headers["X-File-Name"], Request, statuses);
+                }
+
+                JsonResult result = Json(statuses);
+                result.ContentType = "text/plain";
+
+                return result;
+            }
+
+            return Json(r);
+        }
+
+        //DONT USE THIS IF YOU NEED TO ALLOW LARGE FILES UPLOADS
+        //Credit to i-e-b and his ASP.Net uploader for the bulk of the upload helper methods - https://github.com/i-e-b/jQueryFileUpload.Net
+        private void UploadPartialFile(string fileName, HttpRequestBase request, List<ViewDataUploadFilesResultVM> statuses)
+        {
+            if (request.Files.Count != 1) throw new HttpRequestValidationException("Attempt to upload chunked file containing more than one fragment per request");
+            var file = request.Files[0];
+            statuses.Add(UpdateFile(fileName, file));
+        }
+
+        //DONT USE THIS IF YOU NEED TO ALLOW LARGE FILES UPLOADS
+        //Credit to i-e-b and his ASP.Net uploader for the bulk of the upload helper methods - https://github.com/i-e-b/jQueryFileUpload.Net
+        private void UploadWholeFile(HttpRequestBase request, List<ViewDataUploadFilesResultVM> statuses)
+        {
+            for (int i = 0; i < request.Files.Count; i++)
+            {
+                var file = request.Files[i];
+                statuses.Add(UpdateFile(file.FileName, file));
+            }
+        }
+
+        private ViewDataUploadFilesResultVM UpdateFile(string fileName, HttpPostedFileBase file)
+        {
+            var inputStream = file.InputStream;
+
+            FileUploadEntity fileEntity = new FileUploadEntity();
+            fileEntity.ID = Guid.NewGuid();
+            fileEntity.Name = file.FileName;
+            fileEntity.ContentType = file.ContentType;
+
+            byte[] fileContents = new byte[file.ContentLength];
+            inputStream.Read(fileContents, 0, file.ContentLength);
+            fileEntity.FileContents = ResizeImage(fileContents, 400, 250);
+
+            using (Repository r = new Repository())
+            {
+                r.Files.Add(fileEntity);
+            }
+
+            return new ViewDataUploadFilesResultVM()
+            {
+                name = fileName,
+                size = file.ContentLength,
+                type = file.ContentType,
+                url = "/Home/DownloadFile/" + fileEntity.ID.ToString(),
+                delete_url = "/Home/DeleteFile/" + fileEntity.ID.ToString(),
+                thumbnail_url = @"data:image/png;base64," + Convert.ToBase64String(fileContents),
+                delete_type = "GET"
+            };
+        }
+
+        private string EncodeFile(string fileName)
+        {
+            return Convert.ToBase64String(System.IO.File.ReadAllBytes(fileName));
+        }
+
+        private byte[] ResizeImage(byte[] file, int maxWidth, int maxHeight)
+        {
+            using (MemoryStream ms = new MemoryStream(file))
+            {
+                using (Image img = Image.FromStream(ms))
+                {
+                    if (maxWidth >= img.Width && maxHeight >= img.Height)
+                    {
+                        return file;
+                    }
+
+                    double widthRatio = (double)maxWidth / (double)img.Width;
+                    double heightRatio = (double)maxHeight / (double)img.Height;
+
+                    double ratio = Math.Min(widthRatio, heightRatio);
+
+                    int newWidth = (int)(img.Width * ratio);
+                    int newHeight = (int)(img.Height * ratio);
+
+                    Image thumbNail = new Bitmap(newWidth, newHeight, img.PixelFormat);
+                    Graphics g = Graphics.FromImage(thumbNail);
+                    g.CompositingQuality = CompositingQuality.HighQuality;
+                    g.SmoothingMode = SmoothingMode.HighQuality;
+                    g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                    Rectangle rect = new Rectangle(0, 0, newWidth, newHeight);
+                    g.DrawImage(img, rect);
+
+                    using (MemoryStream result = new MemoryStream())
+                    {
+                        thumbNail.Save(result, img.RawFormat);
+                        return result.ToArray();
+                    }
+                }
+            }
         }
 
         private MenuVM GetMenuFromStore(string menuType)
