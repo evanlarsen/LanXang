@@ -54,7 +54,7 @@ namespace LanXang.Web.Controllers
 
         public ActionResult FeaturedSushi()
         {
-            return View();
+            return View(GetGalleryVM());
         }
 
         public ActionResult Location()
@@ -108,6 +108,28 @@ namespace LanXang.Web.Controllers
                                             Price = i.Price
                                         }).ToList()
                     });
+                }
+            }
+            return vm;
+        }
+
+        private GalleryVM GetGalleryVM()
+        {
+            GalleryVM vm = new GalleryVM();
+            vm.Images = new List<GalleryImageVM>();
+            using (Repository r = new Repository())
+            {
+                foreach (var f in r.Files)
+                {
+                    vm.Images.Add(
+                        new GalleryImageVM()
+                        {
+                            ID = f.ID.ToString(),
+                            Url = Url.Action("DownloadFile", new { id = f.ID }),
+                            DeleteUrl = Url.Action("DeleteFile", new { id = f.ID }),
+                            Name = f.Name,
+                            Description = f.Description
+                        });
                 }
             }
             return vm;

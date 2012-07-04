@@ -1,4 +1,5 @@
-﻿@{
+﻿@model LanXang.Web.Viewmodels.GalleryVM
+@{
     ViewBag.Title = "FeaturedSushi";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -22,6 +23,13 @@
 
 <div class="pikachoose" >
 	<ul id="pikame" class="jcarousel-skin-pika">
+        @if (Model.Images != null)
+        {
+        foreach (var image in Model.Images)
+        {
+            <li><img src="@image.Url" /></li>
+        }
+        }
         <li><img src="@Url.Content("~/Content/images/gallery/sushibar1.jpg")" /></li>
         <li><img src="@Url.Content("~/Content/images/gallery/front2a.jpg")" /></li>
         <li><img src="@Url.Content("~/Content/images/gallery/deb1.jpg")"/></li>
