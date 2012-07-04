@@ -6,6 +6,7 @@ namespace LanXang.Web.Core.Entities
     {
         public Guid ID { get; set; }
         public string Name { get; set; }
+        public string Description { get; set; }
         public byte[] FileContents { get; set; }
         public string ContentType { get; set; }
     }

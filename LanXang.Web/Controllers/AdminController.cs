@@ -120,17 +120,35 @@ namespace LanXang.Web.Controllers
         [Authorize]
         public ActionResult Gallery()
         {
-            GalleryVM vm = new GalleryVM();
-            vm.ImageUrls = new List<string>();
-            using (Repository r = new Repository())
+            return View(GetGalleryVM());
+        }
+
+        [Authorize]
+        [HttpPost]
+        public ActionResult Gallery(GalleryVM gallery)
+        {
+            if (gallery != null && gallery.Images != null)
             {
-                var ids = r.Files.Select(f => f.ID);
-                foreach (var id in ids)
+                using (Repository r = new Repository())
                 {
-                    vm.ImageUrls.Add(Url.Action("DownloadFile", new { id = id }));
+                    foreach (var image in r.Files)
+                    {
+                        var i = gallery.Images.Find(x => x.ID == image.ID.ToString());
+
+                        if (i == null)
+                        {
+                            r.Files.Remove(image);
+                        }
+                        else
+                        {
+                            image.Description = i.Description;
+                        }
+                    }
+
+                    r.SaveChanges();
                 }
             }
-            return View(vm);
+            return View(GetGalleryVM());
         }
 
         [Authorize]
@@ -223,7 +241,7 @@ namespace LanXang.Web.Controllers
 
             FileUploadEntity fileEntity = new FileUploadEntity();
             fileEntity.ID = Guid.NewGuid();
-            fileEntity.Name = file.FileName;
+            fileEntity.Name = Path.GetFileName(fileName);
             fileEntity.ContentType = file.ContentType;
 
             byte[] fileContents = new byte[file.ContentLength];
@@ -238,7 +256,7 @@ namespace LanXang.Web.Controllers
 
             return new ViewDataUploadFilesResultVM()
             {
-                name = fileName,
+                name = fileEntity.Name,
                 size = file.ContentLength,
                 type = file.ContentType,
                 url = "/Admin/DownloadFile/" + fileEntity.ID.ToString(),
@@ -349,6 +367,27 @@ namespace LanXang.Web.Controllers
                 }
 
                 r.SaveChanges();
+            }
+            return vm;
+        }
+
+        private GalleryVM GetGalleryVM()
+        {
+            GalleryVM vm = new GalleryVM();
+            vm.Images = new List<GalleryImageVM>();
+            using (Repository r = new Repository())
+            {
+                foreach (var f in r.Files)
+                {
+                    vm.Images.Add(
+                        new GalleryImageVM()
+                        {
+                            ID = f.ID.ToString(),
+                            Url = Url.Action("DownloadFile", new { id = f.ID }),
+                            Name = f.Name,
+                            Description = f.Description
+                        });
+                }
             }
             return vm;
         }
