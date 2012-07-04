@@ -4,22 +4,32 @@
 }
 
 @section header {
+    <style type="text/css">
+        #gallery ul { list-style-type: none; }
+    </style>
     <script type="text/javascript">
         $(function () {
-            function Image(uri) {
+            function Image(uri, deleteuri) {
                 var self = this;
                 self.uri = ko.observable(uri);
+                self.deleteuri = ko.observable(deleteuri);
             }
             function ViewModel(_model) {
-                this.files = ko.observableArray([]);
-                this.images = ko.observableArray([]);
-                this.addUpload = function () {
-                    this.files.push({});
+                var self = this;
+                self.files = ko.observableArray([]);
+                self.images = ko.observableArray([]);
+                self.addUpload = function () {
+                    self.files.push({});
+                };
+                self.removeUpload = function(file) {
+                    self.files.remove(file);
                 };
                 function _init() {
-                    if (_model && _model.ImageUrls && _model.ImageUrls.length > 0) {
-                        for (var i = 0, max = _model.ImageUrls.length; i < max; i++) {
-                            
+                    self.files.push({});
+
+                    if (_model && _model.Images && _model.Images.length > 0) {
+                        for (var i = 0, max = _model.Images.length; i < max; i++) {
+                            self.images.push(new Image(_model.Images[i].Url, _model.Images[i].DeleteUrl));
                         }
                     }
                 }
@@ -35,23 +45,26 @@
 
 <div id="gallery">
 
-<ul data-bind="foreach: images">
-    <li>
-        <img data-bind="attr: { src: uri }" />
-    </li>
-</ul>
-
 <form id="fileupload" action="@Url.Action("UploadFiles")" method="POST" enctype="multipart/form-data">
     <div id="fileupload-container">
-        <input type="button" value="add another uplaod" data-bind="click: addUpload" />
         <ul data-bind="foreach: files">
             <li>
                 <input type="file" name="files">
+                <input type="button" value="remove" data-bind="click: $parent.removeUpload" />
             </li>
         </ul>
+        <input type="button" value="add another uplaod" data-bind="click: addUpload" />
+        <br />
         <input type="submit" value="upload" />
     </div>
 </form>
+
+<ul data-bind="foreach: images">
+    <li>
+        <img data-bind="attr: { src: uri }" />
+        <a data-bind="attr: { href: deleteuri }">delete</a>
+    </li>
+</ul>
 
 </div>
     
