@@ -129,6 +129,7 @@
     <Content Include="Content\images\templatemo_menu_hover.png" />
     <Content Include="Content\images\templatemo_vertical_divider.jpg" />
     <Content Include="Content\images\Title1.png" />
+    <Content Include="Content\scripts\jquery.pikachoose.js" />
     <Content Include="Content\scripts\knockout-2.1.0.js" />
     <Content Include="Content\scripts\knockout.mapping-latest.js" />
     <Content Include="Content\scripts\menu.js" />
