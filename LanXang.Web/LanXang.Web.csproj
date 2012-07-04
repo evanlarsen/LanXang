@@ -83,7 +83,6 @@
     <Compile Include="Viewmodels\GalleryVM.cs" />
     <Compile Include="Viewmodels\MenuVM.cs" />
     <Compile Include="Viewmodels\StoreHoursVM.cs" />
-    <Compile Include="Viewmodels\ViewDataUploadFilesResultVM.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\images\carousel_images\75-black.png" />

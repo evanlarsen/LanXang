@@ -160,12 +160,19 @@ namespace LanXang.Web.Controllers
         //DONT USE THIS IF YOU NEED TO ALLOW LARGE FILES UPLOADS
         [Authorize]
         [HttpGet]
-        public void DeleteFile(Guid id)
+        public ActionResult DeleteFile(Guid id)
         {
             using (Repository r = new Repository())
             {
-                r.Files.Remove(new FileUploadEntity() { ID = id });
+                FileUploadEntity f = r.Files.FirstOrDefault(x => x.ID == id);
+                if (f != null)
+                {
+                    r.Files.Remove(f);
+                    r.SaveChanges();
+                }
             }
+
+            return RedirectToAction("Gallery");
         }
 
         //DONT USE THIS IF YOU NEED TO ALLOW LARGE FILES UPLOADS
@@ -190,52 +197,44 @@ namespace LanXang.Web.Controllers
         [HttpPost]
         public ActionResult UploadFiles()
         {
-            var r = new List<ViewDataUploadFilesResultVM>();
-
             foreach (string file in Request.Files)
             {
-                var statuses = new List<ViewDataUploadFilesResultVM>();
                 var headers = Request.Headers;
 
                 if (string.IsNullOrEmpty(headers["X-File-Name"]))
                 {
-                    UploadWholeFile(Request, statuses);
+                    UploadWholeFile(Request);
                 }
                 else
                 {
-                    UploadPartialFile(headers["X-File-Name"], Request, statuses);
+                    UploadPartialFile(headers["X-File-Name"], Request);
                 }
-
-                JsonResult result = Json(statuses);
-                result.ContentType = "text/plain";
-
-                return result;
             }
 
-            return Json(r);
+            return RedirectToAction("Gallery");
         }
 
         //DONT USE THIS IF YOU NEED TO ALLOW LARGE FILES UPLOADS
         //Credit to i-e-b and his ASP.Net uploader for the bulk of the upload helper methods - https://github.com/i-e-b/jQueryFileUpload.Net
-        private void UploadPartialFile(string fileName, HttpRequestBase request, List<ViewDataUploadFilesResultVM> statuses)
+        private void UploadPartialFile(string fileName, HttpRequestBase request)
         {
             if (request.Files.Count != 1) throw new HttpRequestValidationException("Attempt to upload chunked file containing more than one fragment per request");
             var file = request.Files[0];
-            statuses.Add(UpdateFile(fileName, file));
+            UpdateFile(fileName, file);
         }
 
         //DONT USE THIS IF YOU NEED TO ALLOW LARGE FILES UPLOADS
         //Credit to i-e-b and his ASP.Net uploader for the bulk of the upload helper methods - https://github.com/i-e-b/jQueryFileUpload.Net
-        private void UploadWholeFile(HttpRequestBase request, List<ViewDataUploadFilesResultVM> statuses)
+        private void UploadWholeFile(HttpRequestBase request)
         {
             for (int i = 0; i < request.Files.Count; i++)
             {
                 var file = request.Files[i];
-                statuses.Add(UpdateFile(file.FileName, file));
+                UpdateFile(file.FileName, file);
             }
         }
 
-        private ViewDataUploadFilesResultVM UpdateFile(string fileName, HttpPostedFileBase file)
+        private void UpdateFile(string fileName, HttpPostedFileBase file)
         {
             var inputStream = file.InputStream;
 
@@ -253,17 +252,6 @@ namespace LanXang.Web.Controllers
                 r.Files.Add(fileEntity);
                 r.SaveChanges();
             }
-
-            return new ViewDataUploadFilesResultVM()
-            {
-                name = fileEntity.Name,
-                size = file.ContentLength,
-                type = file.ContentType,
-                url = "/Admin/DownloadFile/" + fileEntity.ID.ToString(),
-                delete_url = "/Admin/DeleteFile/" + fileEntity.ID.ToString(),
-                thumbnail_url = "/Admin/DownloadFile/" + fileEntity.ID.ToString(),
-                delete_type = "GET"
-            };
         }
 
         private string EncodeFile(string fileName)
