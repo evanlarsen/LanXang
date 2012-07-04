@@ -120,7 +120,17 @@ namespace LanXang.Web.Controllers
         [Authorize]
         public ActionResult Gallery()
         {
-            return View();
+            GalleryVM vm = new GalleryVM();
+            vm.ImageUrls = new List<string>();
+            using (Repository r = new Repository())
+            {
+                var ids = r.Files.Select(f => f.ID);
+                foreach (var id in ids)
+                {
+                    vm.ImageUrls.Add(Url.Action("DownloadFile", new { id = id }));
+                }
+            }
+            return View(vm);
         }
 
         [Authorize]
@@ -223,6 +233,7 @@ namespace LanXang.Web.Controllers
             using (Repository r = new Repository())
             {
                 r.Files.Add(fileEntity);
+                r.SaveChanges();
             }
 
             return new ViewDataUploadFilesResultVM()
@@ -230,9 +241,9 @@ namespace LanXang.Web.Controllers
                 name = fileName,
                 size = file.ContentLength,
                 type = file.ContentType,
-                url = "/Home/DownloadFile/" + fileEntity.ID.ToString(),
-                delete_url = "/Home/DeleteFile/" + fileEntity.ID.ToString(),
-                thumbnail_url = @"data:image/png;base64," + Convert.ToBase64String(fileContents),
+                url = "/Admin/DownloadFile/" + fileEntity.ID.ToString(),
+                delete_url = "/Admin/DeleteFile/" + fileEntity.ID.ToString(),
+                thumbnail_url = "/Admin/DownloadFile/" + fileEntity.ID.ToString(),
                 delete_type = "GET"
             };
         }

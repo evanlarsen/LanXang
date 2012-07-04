@@ -80,6 +80,7 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Viewmodels\AdminLoginVM.cs" />
+    <Compile Include="Viewmodels\GalleryVM.cs" />
     <Compile Include="Viewmodels\MenuVM.cs" />
     <Compile Include="Viewmodels\StoreHoursVM.cs" />
     <Compile Include="Viewmodels\ViewDataUploadFilesResultVM.cs" />
