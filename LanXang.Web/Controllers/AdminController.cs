@@ -384,6 +384,7 @@ namespace LanXang.Web.Controllers
                         {
                             ID = f.ID.ToString(),
                             Url = Url.Action("DownloadFile", new { id = f.ID }),
+                            DeleteUrl = Url.Action("DeleteFile", new { id = f.ID }),
                             Name = f.Name,
                             Description = f.Description
                         });
