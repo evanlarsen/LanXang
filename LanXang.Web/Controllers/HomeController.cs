@@ -67,6 +67,23 @@ namespace LanXang.Web.Controllers
             return View();
         }
 
+        //DONT USE THIS IF YOU NEED TO ALLOW LARGE FILES UPLOADS
+        [HttpGet]
+        public ActionResult DownloadFile(Guid id)
+        {
+            using (Repository r = new Repository())
+            {
+                FileUploadEntity file = r.Files.FirstOrDefault(f => f.ID == id);
+
+                if (file == null)
+                {
+                    throw new HttpException(404, "HTTP/1.1 404 Not Found");
+                }
+
+                return File(file.FileContents, file.ContentType);
+            }
+        }
+
         [ChildActionOnly]
         public ActionResult _StoreHours()
         {

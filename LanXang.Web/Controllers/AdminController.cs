@@ -175,40 +175,19 @@ namespace LanXang.Web.Controllers
             return RedirectToAction("Gallery");
         }
 
-        //DONT USE THIS IF YOU NEED TO ALLOW LARGE FILES UPLOADS
-        [Authorize]
-        [HttpGet]
-        public ActionResult DownloadFile(Guid id)
-        {
-            using (Repository r = new Repository())
-            {
-                FileUploadEntity file = r.Files.FirstOrDefault(f => f.ID == id);
-
-                if (file == null)
-                {
-                    throw new HttpException(404, "HTTP/1.1 404 Not Found");
-                }
-
-                return File(file.FileContents, file.ContentType);
-            }
-        }
-
         [Authorize]
         [HttpPost]
         public ActionResult UploadFiles()
         {
-            foreach (string file in Request.Files)
-            {
-                var headers = Request.Headers;
+            var headers = Request.Headers;
 
-                if (string.IsNullOrEmpty(headers["X-File-Name"]))
-                {
-                    UploadWholeFile(Request);
-                }
-                else
-                {
-                    UploadPartialFile(headers["X-File-Name"], Request);
-                }
+            if (string.IsNullOrEmpty(headers["X-File-Name"]))
+            {
+                UploadWholeFile(Request);
+            }
+            else
+            {
+                UploadPartialFile(headers["X-File-Name"], Request);
             }
 
             return RedirectToAction("Gallery");
@@ -371,7 +350,7 @@ namespace LanXang.Web.Controllers
                         new GalleryImageVM()
                         {
                             ID = f.ID.ToString(),
-                            Url = Url.Action("DownloadFile", new { id = f.ID }),
+                            Url = Url.Action("DownloadFile", "Home", new { id = f.ID }),
                             DeleteUrl = Url.Action("DeleteFile", new { id = f.ID }),
                             Name = f.Name,
                             Description = f.Description
