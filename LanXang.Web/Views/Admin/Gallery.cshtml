@@ -4,14 +4,55 @@
 }
 
 @section header {
+    <script type="text/javascript">
+        $(function () {
+            function Image(uri) {
+                var self = this;
+                self.uri = ko.observable(uri);
+            }
+            function ViewModel(_model) {
+                this.files = ko.observableArray([]);
+                this.images = ko.observableArray([]);
+                this.addUpload = function () {
+                    this.files.push({});
+                };
+                function _init() {
+                    if (_model && _model.ImageUrls && _model.ImageUrls.length > 0) {
+                        for (var i = 0, max = _model.ImageUrls.length; i < max; i++) {
+                            
+                        }
+                    }
+                }
 
+                _init();
+            }
+            var model = @Html.Raw(Json.Encode(Model));
+            var vm = new ViewModel(model);
+            ko.applyBindings(vm, document.getElementById('gallery'));
+        });
+    </script>
 }
 
-<form id="fileupload" action="@Url.Action("UploadFiles")" method="POST" enctype="multipart/form-data">
-        
-    <input type="file" name="files[]" multiple>
+<div id="gallery">
 
-    <input type="submit" value="upload" />
+<ul data-bind="foreach: images">
+    <li>
+        <img data-bind="attr: { src: uri }" />
+    </li>
+</ul>
+
+<form id="fileupload" action="@Url.Action("UploadFiles")" method="POST" enctype="multipart/form-data">
+    <div id="fileupload-container">
+        <input type="button" value="add another uplaod" data-bind="click: addUpload" />
+        <ul data-bind="foreach: files">
+            <li>
+                <input type="file" name="files">
+            </li>
+        </ul>
+        <input type="submit" value="upload" />
+    </div>
 </form>
+
+</div>
     
   
